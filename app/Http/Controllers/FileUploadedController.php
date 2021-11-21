@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FileUploaded;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class FileUploadedController extends Controller
@@ -61,7 +62,7 @@ class FileUploadedController extends Controller
         return number_format($size) . " bytes";
     }
 
-     /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -77,4 +78,11 @@ class FileUploadedController extends Controller
         return redirect('/404');
     }
 
+    //@DeleteMapping("/files/delete")
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();
+        return response()->json(['success' => "Files deleted successfully"]);
+    }
 }

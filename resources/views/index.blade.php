@@ -32,27 +32,27 @@
         </div>
     </nav>
 
-    <table class="table table-hover" id="file_table">
-        <thead class="thead-light">
+    <table class="table table-hover">
+        <thead>
             <tr>
                 <th width="50px"><input type="checkbox" id="master"></th>
-                <th class="text-center">File Name</th>
-                <th class="text-center">Added</th>
-                <th class="text-center">Size</th>
-                <th class="text-center"></th>
+                <th scope="col" class="text-center">File Name</th>
+                <th scope="col" class="text-center">Added</th>
+                <th scope="col" class="text-center">Size</th>
+                <th scope="col" class="text-center"></th>
             </tr>
         </thead>
         <tbody>
             @if ($file_uploaded->count())
                 @foreach ($file_uploaded as $file)
                     <tr>
-                        <td><input type="checkbox" class="sub_chk" data-id="{{ $file->id }}"></td>
+                        <th scope="row"><input type="checkbox" class="sub_chk" data-id="{{ $file->id }}"></th>
                         <td class="text-center">{{ $file->name }}</td>
                         <td class="text-center">{{ $file->created_at }}</td>
                         <td class="text-center">{{ $file->size }}</td>
                         <td class="text-center">
                             <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
-                                <i class="bi bi-cloud-download"></i>
+                                <i class="bi bi-cloud-arrow-down"></i>
                             </a>
                         </td>
                     </tr>

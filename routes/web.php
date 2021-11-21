@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/files/download/{id}', [App\Http\Controllers\FileUploadedController::class, 'download'])->name('downloadfile');
 Route::get('/index', [App\Http\Controllers\FileUploadedController::class, 'index'])->name('index');
 Route::post('/files', [App\Http\Controllers\FileUploadedController::class, 'store']);
+Route::delete('/files/delete', [App\Http\Controllers\FileUploadedController::class, 'deleteAll'])->name('myFilesDeleteAll');
 
 Route::get('/', function () {
     return view('dashboard');

@@ -25,6 +25,8 @@ Route::get('/files/download/{id}', [App\Http\Controllers\FileUploadedController:
 Route::get('/index', [App\Http\Controllers\FileUploadedController::class, 'index'])->name('index');
 Route::post('/files', [App\Http\Controllers\FileUploadedController::class, 'store']);
 Route::delete('/files/delete', [App\Http\Controllers\FileUploadedController::class, 'deleteAll'])->name('myFilesDeleteAll');
+Route::get('/files/search', [App\Http\Controllers\FileUploadedController::class, 'search']);
+Route::post('/files/update', [App\Http\Controllers\FileUploadedController::class, 'update'])->name('file.update');
 
 Route::get('/', function () {
     return view('dashboard');

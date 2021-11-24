@@ -33,6 +33,12 @@ class FileUploadedController extends Controller
         return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $file_uploaded = FileUploaded::where('id', $id)->where('user_id',$user_id)->first();
+        return view('edit',compact('file_uploaded'));
+    }
 
 
     public function index()
@@ -43,7 +49,19 @@ class FileUploadedController extends Controller
         return view('index', compact('file_uploaded'));
     }
 
+    public function update(Request $request, $id)
+    {
+        //dd($request);
+        $request->validate([
+            'name' => 'required'
+        ]);
 
+        $user_id = Auth::user()->id;
+        FileUploaded::where('id', $id)->where('user_id',$user_id)->update(['name' => $request->name]);
+
+        return redirect()->route('index')
+                        ->with('success','Product updated successfully');
+    }
 
 
     /**

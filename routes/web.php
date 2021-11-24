@@ -26,8 +26,8 @@ Route::get('/index', [App\Http\Controllers\FileUploadedController::class, 'index
 Route::post('/files', [App\Http\Controllers\FileUploadedController::class, 'store']);
 Route::delete('/files/delete', [App\Http\Controllers\FileUploadedController::class, 'deleteAll'])->name('myFilesDeleteAll');
 Route::get('/files/search', [App\Http\Controllers\FileUploadedController::class, 'search']);
-Route::post('/files/update', [App\Http\Controllers\FileUploadedController::class, 'update'])->name('file.update');
-
+Route::get('/files/edit/{id}', [App\Http\Controllers\FileUploadedController::class, 'edit'])->name('file.edit');
+Route::put('/files/update/{id}', [App\Http\Controllers\FileUploadedController::class, 'update'])->name('file.update');
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');

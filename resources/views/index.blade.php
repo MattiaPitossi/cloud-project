@@ -29,6 +29,10 @@
                         id="term">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+
+                <form class="d-flex" action="/index" method="GET" role="search">
+                    <button style="margin:5px;" class="btn btn-outline-success" type="submit">Refresh</button>
+                </form>
             </div>
         </div>
     </nav>
@@ -47,7 +51,8 @@
             @if ($file_uploaded->count())
                 @foreach ($file_uploaded as $file)
                     <tr>
-                        <th scope="row" class="align-middle"><input type="checkbox" class="sub_chk" data-id="{{ $file->id }}"></th>
+                        <th scope="row" class="align-middle"><input type="checkbox" class="sub_chk"
+                                data-id="{{ $file->id }}"></th>
                         <td class="align-middle text-center">{{ $file->name }}</td>
                         <td class="align-middle text-center">{{ $file->created_at }}</td>
                         <td class="align-middle text-center">{{ $file->size }}</td>
@@ -60,7 +65,7 @@
                                         </a>
                                     </div>
                                     <div class="col col-lg-2">
-                                        <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
+                                        <a href="{{ route('file.edit',$file->id) }}" style="font-size:25px">
                                             <i class="bi bi-pencil" style="font-size: 1.2rem"></i>
                                         </a>
                                     </div>

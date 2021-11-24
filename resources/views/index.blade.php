@@ -24,8 +24,9 @@
                     </li>
 
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" action="/files/search" method="GET" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="term"
+                        id="term">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -46,17 +47,36 @@
             @if ($file_uploaded->count())
                 @foreach ($file_uploaded as $file)
                     <tr>
-                        <th scope="row"><input type="checkbox" class="sub_chk" data-id="{{ $file->id }}"></th>
-                        <td class="text-center">{{ $file->name }}</td>
-                        <td class="text-center">{{ $file->created_at }}</td>
-                        <td class="text-center">{{ $file->size }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
-                                <i class="bi bi-cloud-arrow-down"></i>
-                            </a>
+                        <th scope="row" class="align-middle"><input type="checkbox" class="sub_chk" data-id="{{ $file->id }}"></th>
+                        <td class="align-middle text-center">{{ $file->name }}</td>
+                        <td class="align-middle text-center">{{ $file->created_at }}</td>
+                        <td class="align-middle text-center">{{ $file->size }}</td>
+                        <td class="align-middle text-center">
+                            <div class="container">
+                                <div class="row justify-content-md-center">
+                                    <div class="col col-lg-2">
+                                        <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
+                                            <i class="bi bi-download" style="font-size: 1.3rem"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col col-lg-2">
+                                        <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
+                                            <i class="bi bi-pencil" style="font-size: 1.2rem"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </td>
                     </tr>
                 @endforeach
+            @else
+
+                <tr>
+                    <td colspan="2">No rows to show</td>
+                </tr>
+
             @endif
         </tbody>
     </table>

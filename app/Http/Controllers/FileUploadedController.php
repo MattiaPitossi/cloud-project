@@ -15,6 +15,26 @@ class FileUploadedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request)
+    {
+
+
+        $user_id = Auth::user()->id;
+
+        $file_uploaded = FileUploaded::where([
+            ['name', '!=', Null], ['user_id', '=', $user_id],
+            [function ($query) use ($request) {
+                if (($term = $request->term)) {
+                    $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
+                }
+            }]
+        ])->orderBy("id", "desc")->paginate(10);
+
+        return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+
+
     public function index()
     {
         $user_id = Auth::user()->id;
@@ -22,6 +42,9 @@ class FileUploadedController extends Controller
 
         return view('index', compact('file_uploaded'));
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.

@@ -602,30 +602,6 @@
                 return false;
             });
 
-            $(document).on('click', '.ModalEdit', function() {
-                let id = $(this).data('id');
-                console.log(id);
-                let name = $(this).data('name');
-                $.get('/files/update/' + id + '/name/' + name, function(data) {
-                    $('#ModalEdit .modal-body').html(data);
-                });
-            });
-
-            // var btn = document.getElementById("restore_file");
-            // btn.addEventListener("click", function() {
-            //     $.ajax({
-            //         url: "/files/restore",
-            //         type: "GET",
-            //         dataType: 'json',
-            //         success: function(data) {
-            //             alert(data['success']);
-            //         },
-            //         error: function(data) {
-            //             console.log("Error: " + data);
-            //         }
-            //     });
-            // }, false);
-
         });
     </script>
 

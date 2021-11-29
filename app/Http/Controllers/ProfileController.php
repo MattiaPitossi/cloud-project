@@ -18,12 +18,9 @@ class ProfileController extends Controller
         return view('profile', compact('user_data'));
     }
 
-    public function update(Request $request, $id, $name)
+    public function update(Request $request, $name, $email, $phone = null, $mobile = null, $address = null)
     {
-        //dd($request);
-        $request->validate([
-            'name' => 'required'
-        ]);
+        dd($email);
 
 
         $user_id = Auth::user()->id;

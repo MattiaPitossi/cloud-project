@@ -46,6 +46,6 @@ Route::delete('/files/delete_definitely', [App\Http\Controllers\DeletedFilesCont
 Route::get('/files/search_deleted', [App\Http\Controllers\DeletedFilesController::class, 'search']);
 
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'getUserProfile']);
-Route::put('/profile/update/{id}/name/{name}', [App\Http\Controllers\ProfileController::class, 'update'])->name('user.update');
+Route::put('/profile/update/{name}/email/{email}/{phone?}/{mobile?}/{address?}', [App\Http\Controllers\ProfileController::class, 'update'])->name('user.update');
 
 require __DIR__ . '/auth.php';

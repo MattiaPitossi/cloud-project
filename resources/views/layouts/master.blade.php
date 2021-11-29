@@ -463,12 +463,12 @@
                                     </ul>
                                 </li> --}}
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
+                            <a href="/recently" class="nav-link px-0 align-middle">
                                 <i class="bi bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Recently
                                     added</span> </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
+                            <a href="/deleted/files" class="nav-link px-0 align-middle">
                                 <i class="bi bi-trash"></i> <span class="ms-1 d-none d-sm-inline">Deleted
                                     Files</span> </a>
                         </li>
@@ -496,6 +496,9 @@
                                     </button>
                                 </form>
 
+                            </li>
+                            <li>
+                                <a href="/profile">Profile</a>
                             </li>
                         </ul>
                     </div>
@@ -599,7 +602,29 @@
                 return false;
             });
 
+            $(document).on('click', '.ModalEdit', function() {
+                let id = $(this).data('id');
+                console.log(id);
+                let name = $(this).data('name');
+                $.get('/files/update/' + id + '/name/' + name, function(data) {
+                    $('#ModalEdit .modal-body').html(data);
+                });
+            });
 
+            // var btn = document.getElementById("restore_file");
+            // btn.addEventListener("click", function() {
+            //     $.ajax({
+            //         url: "/files/restore",
+            //         type: "GET",
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             alert(data['success']);
+            //         },
+            //         error: function(data) {
+            //             console.log("Error: " + data);
+            //         }
+            //     });
+            // }, false);
 
         });
     </script>

@@ -8,7 +8,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <form action="/files" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -27,11 +27,11 @@
                 <form class="d-flex" action="/files/search" method="GET" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="term"
                         id="term">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-primary" type="submit">Search</button>
                 </form>
 
                 <form class="d-flex" action="/index" method="GET" role="search">
-                    <button style="margin:5px;" class="btn btn-outline-success" type="submit">Refresh</button>
+                    <button style="margin:5px;" class="btn btn-secondary" type="submit">Refresh</button>
                 </form>
             </div>
         </div>
@@ -65,14 +65,13 @@
                                         </a>
                                     </div>
                                     <div class="col col-lg-2">
-                                        <a href="{{ route('file.edit',$file->id) }}" style="font-size:25px">
+                                        <a href="" style="font-size:25px" data-toggle="modal" data-target="#ModalEdit{{$file->id}}">
                                             <i class="bi bi-pencil" style="font-size: 1.2rem"></i>
                                         </a>
                                     </div>
                                 </div>
                             </div>
-
-
+                            @include('edit_modal')
                         </td>
                     </tr>
                 @endforeach
@@ -85,5 +84,6 @@
             @endif
         </tbody>
     </table>
+
 
 @endsection('content')

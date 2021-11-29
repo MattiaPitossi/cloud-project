@@ -29,6 +29,12 @@
         </div>
     </nav>
 
+    @if (session()->has('message'))
+        <div class="alert alert-primary">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+
     <table class="table table-hover">
         <thead>
             <tr>

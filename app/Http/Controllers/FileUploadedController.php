@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUploadedController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +22,13 @@ class FileUploadedController extends Controller
      */
     public function search(Request $request)
     {
-
-
         $user_id = Auth::user()->id;
+
+        $true = 1;
 
         $file_uploaded = FileUploaded::where([
             ['name', '!=', Null], ['user_id', '=', $user_id],
+            ['is_deleted', '!=', $true],
             [function ($query) use ($request) {
                 if (($term = $request->term)) {
                     $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
@@ -33,34 +39,37 @@ class FileUploadedController extends Controller
         return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
-    public function edit($id)
-    {
-        $user_id = Auth::user()->id;
-        $file_uploaded = FileUploaded::where('id', $id)->where('user_id',$user_id)->first();
-        return view('edit',compact('file_uploaded'));
-    }
-
-
     public function index()
     {
         $user_id = Auth::user()->id;
-        $file_uploaded = FileUploaded::where('user_id', $user_id)->latest()->get();
+        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->get();
 
         return view('index', compact('file_uploaded'));
     }
 
-    public function update(Request $request, $id)
+    public function getRecentlyAddedFiles()
+    {
+        $user_id = Auth::user()->id;
+        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->take(10)->get();
+
+        return view('recently_added', compact('file_uploaded'));
+    }
+
+
+    public function update(Request $request, $id, $name)
     {
         //dd($request);
         $request->validate([
             'name' => 'required'
         ]);
 
+        Storage::disk('local')->move("file_uploaded/" . $name, "file_uploaded/" . $request->name);
+
         $user_id = Auth::user()->id;
-        FileUploaded::where('id', $id)->where('user_id',$user_id)->update(['name' => $request->name]);
+        FileUploaded::where('id', $id)->where('user_id', $user_id)->update(['name' => $request->name]);
 
         return redirect()->route('index')
-                        ->with('success','Product updated successfully');
+            ->with('success', 'Product updated successfully');
     }
 
 
@@ -123,7 +132,11 @@ class FileUploadedController extends Controller
     public function deleteAll(Request $request)
     {
         $ids = $request->ids;
-        DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => "Files deleted successfully"]);
+        //DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();
+        $array_ids = explode(",", $ids);
+        foreach ($array_ids as $id) {
+            DB::table('file_uploaded')->where('id', $id)->update(['is_deleted' => '1']);
+        }
+        return response()->json(['success' => "Files moved to files deleted"]);
     }
 }

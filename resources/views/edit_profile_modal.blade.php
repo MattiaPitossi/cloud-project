@@ -10,7 +10,7 @@
 @endif
 
 <form
-    action="{{ route('user.update', [$user->name, $user->email, $user->phone, $user->mobile, $user->address]) }}"
+    action="{{ route('user.update', [$user->id]) }}"
     method="POST" enctype="multipart/form-data">
 
     @csrf
@@ -37,7 +37,7 @@
                                 <h6 class="mb-0">Full Name</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ $user->name }}">
+                                <input type="text" name="name" class="form-control" value="{{ $user->name }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -45,7 +45,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ $user->email }}">
+                                <input type="text" name="email" class="form-control" value="{{ $user->email }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -53,7 +53,7 @@
                                 <h6 class="mb-0">Phone</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ $user->phone }}">
+                                <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -61,7 +61,7 @@
                                 <h6 class="mb-0">Mobile</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ $user->mobile }}">
+                                <input type="text" name="mobile" class="form-control" value="{{ $user->mobile }}">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -69,7 +69,7 @@
                                 <h6 class="mb-0">Address</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" class="form-control" value="{{ $user->address }}">
+                                <input type="text" name="address" class="form-control" value="{{ $user->address }}">
                             </div>
                         </div>
                         <div class="row">

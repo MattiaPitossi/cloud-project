@@ -26,7 +26,7 @@
                                         {{-- <p class="text-secondary mb-1">Basic Account</p> --}}
                                         <p class="text-muted font-size-sm">{{ $user -> address }}</p>
                                         <button class="btn btn-primary">Update Photo</button>
-                                        <button class="btn btn-outline-primary">Delete Account</button>
+                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#modalAccountDelete{{ $user -> id }}">Delete Account</button>
                                     </div>
                                 </div>
                             </div>
@@ -94,6 +94,8 @@
 
                     </div>
                 </div>
+
+                @include('delete_modal')
 
             </div>
         </div>

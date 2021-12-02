@@ -12,7 +12,7 @@
 
                     <li class="nav-item">
                         <button style="margin-left: 15px" class="btn btn-primary delete_all"
-                            data-url="{{ url('/files/delete_definitely') }}">Permanetly Delete Selected</button>
+                            data-url="{{ url('/files/delete_definitely') }}">Permanently Delete Selected</button>
                     </li>
 
                 </ul>

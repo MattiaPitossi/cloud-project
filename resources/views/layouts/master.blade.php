@@ -487,19 +487,17 @@
                         </a>
                         <ul class="dropdown-menu">
                             {{-- <li><a class="dropdown-item" href="{{ route('logout') }}">Profile</a></li> --}}
+                            <li><a class="dropdown-item" href="/profile">{{ __('Profile') }}</a></li>
 
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+
+                                <form action="{{ route('logout') }}" method="POST" >
                                     @csrf
-                                    <button class="btn btn-link" type="submit">
-                                        {{ __('Logout') }}
-                                    </button>
+                                    <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                                 </form>
 
                             </li>
-                            <li>
-                                <a href="/profile">Profile</a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>

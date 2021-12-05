@@ -21,7 +21,7 @@
                                 <div class="d-flex flex-column align-items-center text-center">
                                     @if (Auth::user()->image)
                                         <img class="rounded-circle"
-                                            src="{{ asset('storage/images/' . Auth::user()->image) }}" alt="profile_image"
+                                            src="{{ url('storage/images/'. Auth::user()->image) }}" alt="profile_image"
                                             width="150">
                                     @endif
                                     <div class="mt-3">

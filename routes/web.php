@@ -54,5 +54,6 @@ Route::get('/files/search_deleted', [App\Http\Controllers\DeletedFilesController
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'getUserProfile']);
 Route::put('/profile/update/{id}', [App\Http\Controllers\ProfileController::class, 'update'])->name('user.update');
 Route::delete('/profile/delete', [App\Http\Controllers\ProfileController::class, 'delete'])->name('user.delete');
+Route::post('/profile/upload', [App\Http\Controllers\ProfileController::class, 'upload'])->name('user.upload');
 
 require __DIR__ . '/auth.php';

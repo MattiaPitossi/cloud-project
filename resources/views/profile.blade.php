@@ -19,14 +19,23 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="https://pic.onlinewebfonts.com/svg/img_520583.png" alt="Admin"
-                                        class="rounded-circle" width="150">
+                                    @if (Auth::user()->image)
+                                        <img class="rounded-circle"
+                                            src="{{ asset('storage/images/' . Auth::user()->image) }}" alt="profile_image"
+                                            width="150">
+                                    @endif
                                     <div class="mt-3">
                                         <h4>{{ $user->name }}</h4>
                                         {{-- <p class="text-secondary mb-1">Basic Account</p> --}}
-                                        <p class="text-muted font-size-sm">{{ $user -> address }}</p>
-                                        <button class="btn btn-primary">Update Photo</button>
-                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#modalAccountDelete{{ $user -> id }}">Delete Account</button>
+                                        <p class="text-muted font-size-sm">{{ $user->address }}</p>
+                                        <form action="/profile/upload" method="POST" enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <label style="margin-bottom:5px" class="btn btn-primary">
+                                                Update Photo <input type="file" id="file" name="image" onchange="this.form.submit();" hidden />
+                                            </label>
+                                        </form>
+                                        <button class="btn btn-outline-primary" data-toggle="modal"
+                                            data-target="#modalAccountDelete{{ $user->id }}">Delete Account</button>
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +49,7 @@
                                         <h6 class="mb-0">Full Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user -> name }}
+                                        {{ $user->name }}
                                     </div>
                                 </div>
                                 <hr>
@@ -49,7 +58,7 @@
                                         <h6 class="mb-0">Email</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user -> email }}
+                                        {{ $user->email }}
                                     </div>
                                 </div>
                                 <hr>
@@ -58,7 +67,7 @@
                                         <h6 class="mb-0">Phone</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user -> phone }}
+                                        {{ $user->phone }}
                                     </div>
                                 </div>
                                 <hr>
@@ -67,7 +76,7 @@
                                         <h6 class="mb-0">Mobile</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user -> mobile }}
+                                        {{ $user->mobile }}
                                     </div>
                                 </div>
                                 <hr>
@@ -76,14 +85,14 @@
                                         <h6 class="mb-0">Address</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        {{ $user -> address }}
+                                        {{ $user->address }}
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a class="btn btn-info "
-                                            href=""" data-toggle="modal" data-target="#ModalProfileEdit{{$user->id}}">Edit</a>
+                                        <a class="btn btn-primary "
+                                        href=""" data-toggle="modal" data-target="#ModalProfileEdit{{$user->id}}">Edit</a>
                                     </div>
                                 </div>
                             </div>

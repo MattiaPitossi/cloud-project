@@ -52,4 +52,18 @@ class ProfileController extends Controller
 
         return Redirect::route('login')->with('global', 'Your account has been deleted!');
     }
+
+    public function upload(Request $request)
+    {
+        $files = $request->all();
+
+        foreach ($files as $file) {
+            if($request->hasFile('image')){
+                $filename = $request->image->getClientOriginalName();
+                $request->image->storeAs('images', $filename, 'public');
+                Auth()->user()->update(['image'=>$filename]);
+            }
+        return redirect()->back();
+        }
+    }
 }

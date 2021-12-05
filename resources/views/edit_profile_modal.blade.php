@@ -9,14 +9,12 @@
     </div>
 @endif
 
-<form
-    action="{{ route('user.update', [$user->id]) }}"
-    method="POST" enctype="multipart/form-data">
+<form action="{{ route('user.update', [$user->id]) }}" method="POST" enctype="multipart/form-data">
 
     @csrf
     @method('PUT')
-    <div class="modal fade" id="ModalProfileEdit{{ $user->id }}" tabindex="-1" aria-labelledby="ModalProfileEditLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="ModalProfileEdit{{ $user->id }}" tabindex="-1"
+        aria-labelledby="ModalProfileEditLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-dialog">

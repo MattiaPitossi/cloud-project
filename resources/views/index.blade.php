@@ -17,8 +17,8 @@
                             </label>
                         </form>
                     </li>
-                    <li class="nav-item">
-                        <button style="margin-left: 15px" class="btn btn-primary delete_all"
+                    <li class="nav-item" style="margin-left: 15px">
+                        <button  class="btn btn-primary delete_all"
                             data-url="{{ url('/files/delete') }}">Delete
                             All Selected</button>
                     </li>
@@ -84,6 +84,15 @@
             @endif
         </tbody>
     </table>
+
+   <style>
+       @media screen and (max-width: 992px) {
+        .navbar-collapse>ul>.nav-item, .navbar-collapse>form {
+            margin-left: 0!important;
+            padding-top:5px;
+        }
+    }
+   </style>
 
 
 @endsection('content')

@@ -22,21 +22,27 @@ class FileUploadedController extends Controller
      */
     public function search(Request $request)
     {
-        $user_id = Auth::user()->id;
+        if(Auth::check()) {
 
-        $true = 1;
+            $user_id = Auth::user()->id;
 
-        $file_uploaded = FileUploaded::where([
-            ['name', '!=', Null], ['user_id', '=', $user_id],
-            ['is_deleted', '!=', $true],
-            [function ($query) use ($request) {
-                if (($term = $request->term)) {
-                    $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
-                }
-            }]
-        ])->orderBy("id", "desc")->paginate(10);
+            $true = 1;
 
-        return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+            $file_uploaded = FileUploaded::where([
+                ['name', '!=', Null], ['user_id', '=', $user_id],
+                ['is_deleted', '!=', $true],
+                [function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
+                    }
+                }]
+            ])->orderBy("id", "desc")->paginate(10);
+
+            return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            $message = "Session expired";
+            return view('login')->with('message',$message);
+        }
     }
 
     public function index()
@@ -63,13 +69,20 @@ class FileUploadedController extends Controller
             'name' => 'required'
         ]);
 
-        Storage::disk('local')->move("file_uploaded/" . $name, "file_uploaded/" . $request->name);
+        if ($request->name != $name) {
+            Storage::disk('local')->move("file_uploaded/" . $name, "file_uploaded/" . $request->name);
 
-        $user_id = Auth::user()->id;
-        FileUploaded::where('id', $id)->where('user_id', $user_id)->update(['name' => $request->name]);
+            $user_id = Auth::user()->id;
+            FileUploaded::where('id', $id)->where('user_id', $user_id)->update(['name' => $request->name]);
 
-        return redirect()->route('index')
-            ->with('success', 'Product updated successfully');
+            return redirect()->route('index')
+                ->with('success', 'File name uploaded successfully');
+        } else {
+            return redirect()->route('index')
+                ->with('error', 'File name must be different');
+        }
+
+
     }
 
 

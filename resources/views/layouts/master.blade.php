@@ -473,8 +473,8 @@
                                     Files</span> </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="bi bi-info-circle"></i> <span class="ms-1 d-none d-sm-inline">About</span>
+                            <a href="/profile" class="nav-link px-0 align-middle">
+                                <i class="bi bi-person"></i> <span class="ms-1 d-none d-sm-inline">Profile</span>
                             </a>
                         </li>
                     </ul>

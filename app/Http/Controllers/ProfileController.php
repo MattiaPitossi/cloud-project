@@ -13,16 +13,24 @@ class ProfileController extends Controller
 {
     public function getUserProfile()
     {
-        $user_id = Auth::user()->id;
 
-
-        $user_data = DB::table('users')->where('id', '=', $user_id)->get();
-        return view('profile', compact('user_data'));
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            $user_data = DB::table('users')->where('id', '=', $user_id)->get();
+            return view('profile', compact('user_data'));
+        } else {
+            return view('auth.login')->with('message', 'Session expired. Please login.');
+        }
     }
 
     public function update(Request $request, $id)
     {
 
+        // Form validation
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
 
         User::where('id', $id)->update([
             'name' => $request->name,
@@ -58,12 +66,12 @@ class ProfileController extends Controller
         $files = $request->all();
 
         foreach ($files as $file) {
-            if($request->hasFile('image')){
+            if ($request->hasFile('image')) {
                 $filename = $request->image->getClientOriginalName();
                 $request->image->storeAs('images', $filename, 'public');
-                Auth()->user()->update(['image'=>$filename]);
+                Auth()->user()->update(['image' => $filename]);
             }
-        return redirect()->back();
+            return redirect()->back();
         }
     }
 }

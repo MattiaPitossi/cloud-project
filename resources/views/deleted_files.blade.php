@@ -11,7 +11,7 @@
                 <ul class="navbar-nav me-auto">
 
                     <li class="nav-item">
-                        <button style="margin-left: 15px" class="btn btn-primary delete_all"
+                        <button style="margin-left: 10px" class="btn btn-primary delete_all"
                             data-url="{{ url('/files/delete_definitely') }}">Permanently Delete Selected</button>
                     </li>
 
@@ -23,7 +23,7 @@
                 </form>
 
                 <form class="d-flex" action="/deleted/files" method="GET" role="search">
-                    <button style="margin:5px;" class="btn btn-secondary" type="submit">Refresh</button>
+                    <button style="margin-left:5px;" class="btn btn-secondary" type="submit">Reset</button>
                 </form>
             </div>
         </div>
@@ -83,6 +83,19 @@
             @endif
         </tbody>
     </table>
+
+    <style>
+        @media screen and (max-width: 992px) {
+         .navbar-collapse>ul>.nav-item, .navbar-collapse>form, .navbar-collapse>form>button {
+             margin-left: 0!important;
+             padding-top:10px;
+         }
+
+         .navbar-collapse>ul>.nav-item>button {
+             margin-left: 0!important;
+         }
+     }
+    </style>
 
 
 @endsection('content')

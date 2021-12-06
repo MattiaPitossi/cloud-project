@@ -31,7 +31,7 @@
                 </form>
 
                 <form class="d-flex" action="/index" method="GET" role="search">
-                    <button style="margin:5px;" class="btn btn-secondary" type="submit">Refresh</button>
+                    <button style="margin-left:5px;" class="btn btn-secondary" type="submit">Reset</button>
                 </form>
             </div>
         </div>
@@ -87,7 +87,7 @@
 
    <style>
        @media screen and (max-width: 992px) {
-        .navbar-collapse>ul>.nav-item, .navbar-collapse>form {
+        .navbar-collapse>ul>.nav-item, .navbar-collapse>form, .navbar-collapse>form>button {
             margin-left: 0!important;
             padding-top:5px;
         }

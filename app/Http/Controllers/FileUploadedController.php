@@ -40,8 +40,7 @@ class FileUploadedController extends Controller
 
             return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
-            $message = "Session expired";
-            return view('login')->with('message',$message);
+            return view('auth.login')->with('message','Session expired. Please login.');
         }
     }
 
@@ -94,6 +93,7 @@ class FileUploadedController extends Controller
      */
     public function store(Request $request)
     {
+
         $files = new FileUploaded($request->all());
         if ($request->file('file')) {
 

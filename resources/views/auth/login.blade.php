@@ -6,9 +6,9 @@
             </a>
         </x-slot>
 
-        @if ($message->any())
-            <div class="alert alert-danger">
-                Session expired. Please login.
+        @if (session()->has('message'))
+            <div class="alert alert-primary">
+                {{ session()->get('message') }}
             </div>
         @endif
 

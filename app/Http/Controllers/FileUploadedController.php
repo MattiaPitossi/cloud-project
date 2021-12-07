@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class FileUploadedController extends Controller
 {
@@ -22,7 +23,7 @@ class FileUploadedController extends Controller
      */
     public function search(Request $request)
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
 
             $user_id = Auth::user()->id;
 
@@ -40,7 +41,7 @@ class FileUploadedController extends Controller
 
             return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
-            return view('auth.login')->with('message','Session expired. Please login.');
+            return view('auth.login')->with('message', 'Session expired. Please login.');
         }
     }
 
@@ -80,8 +81,6 @@ class FileUploadedController extends Controller
             return redirect()->route('index')
                 ->with('error', 'File name must be different');
         }
-
-
     }
 
 
@@ -94,21 +93,39 @@ class FileUploadedController extends Controller
     public function store(Request $request)
     {
 
-        $files = new FileUploaded($request->all());
-        if ($request->file('file')) {
 
-            $file = $request->file('file');
-            $filename = $file->getClientOriginalName();
-            $size = $file->getSize();
-            $request->file('file')->storeAs('file_uploaded', $filename, 'local');
-            //insert into db
-            $files->user_id = Auth::user()->id;
-            $files->name = $filename;
-            $files->size = $this->humanFileSize($size);
-            $files->save();
-        } else {
-            return response()->json(['fail' => "Not a file."]);
-        }
+
+        $request->validate([
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048'
+            ]);
+
+
+        $files = new FileUploaded($request->all());
+
+
+            if ($request->file('file')) {
+
+                $file = $request->file('file');
+                $filename = $file->getClientOriginalName();
+                // Form validation
+                if (FileUploaded::whereName($filename)->first()) {
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                        'file' => 'File already exists'
+                    ]);
+
+                    throw $error;
+                }
+                $size = $file->getSize();
+                $request->file('file')->storeAs('file_uploaded', $filename, 'local');
+                //insert into db
+                $files->user_id = Auth::user()->id;
+                $files->name = $filename;
+                $files->size = $this->humanFileSize($size);
+                $files->save();
+            } else {
+                return response()->json(['fail' => "Not a file."]);
+            }
+
 
         //return response()->json(['success' => "File uploaded successfully."]);
         return redirect()->route('index');

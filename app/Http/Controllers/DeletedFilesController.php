@@ -40,7 +40,7 @@ class DeletedFilesController extends Controller
             }]
         ])->orderBy("id", "desc")->paginate(10);
 
-        return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('deleted_files', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**

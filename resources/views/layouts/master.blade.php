@@ -418,6 +418,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body>
@@ -491,7 +493,7 @@
 
                             <li>
 
-                                <form action="{{ route('logout') }}" method="POST" >
+                                <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                                 </form>
@@ -601,7 +603,20 @@
             });
 
         });
-    </script>
+
+        // open create folder modal
+        $('.js-upload-file-btn').on('click', function() {
+            $(".js-upload-file, .modal-backdrop").addClass("open");
+        });
+
+        // close all modal
+        $(document).on('click', '.modal .close', function() {
+            $(".modal, .modal-backdrop").removeClass("open");
+
+        });
+
+
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

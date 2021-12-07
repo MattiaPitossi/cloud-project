@@ -10,16 +10,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <form action="/files" method="POST" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <label class="btn btn-primary">
-                                Upload <input type="file" id="file" name="file" onchange="this.form.submit();" hidden />
-                            </label>
-                        </form>
+                        <button class="btn btn-outline-primary" data-toggle="modal"
+                                            data-target="#ModalFileUpload">Upload</button>
                     </li>
+
                     <li class="nav-item" style="margin-left: 15px">
-                        <button  class="btn btn-primary delete_all"
-                            data-url="{{ url('/files/delete') }}">Delete
+                        <button class="btn btn-primary delete_all" data-url="{{ url('/files/delete') }}">Delete
                             All Selected</button>
                     </li>
 
@@ -35,8 +31,9 @@
                 </form>
             </div>
         </div>
-    </nav>
 
+    </nav>
+    @include('dropzone')
     <table class="table table-hover">
         <thead>
             <tr>
@@ -59,13 +56,14 @@
                         <td class="align-middle text-center">
                             <div class="container">
                                 <div class="row justify-content-md-center">
-                                    <div class="col col-lg-2">
+                                    <div class="col col-lg-2" style="margin-right:5px">
                                         <a href="{{ route('downloadfile', $file->name) }}" style="font-size:25px">
                                             <i class="bi bi-download" style="font-size: 1.3rem"></i>
                                         </a>
                                     </div>
                                     <div class="col col-lg-2">
-                                        <a href="" style="font-size:25px" data-toggle="modal" data-target="#ModalEdit{{$file->id}}">
+                                        <a href="" style="font-size:25px" data-toggle="modal"
+                                            data-target="#ModalEdit{{ $file->id }}">
                                             <i class="bi bi-pencil" style="font-size: 1.2rem"></i>
                                         </a>
                                     </div>
@@ -85,14 +83,68 @@
         </tbody>
     </table>
 
-   <style>
-       @media screen and (max-width: 992px) {
-        .navbar-collapse>ul>.nav-item, .navbar-collapse>form, .navbar-collapse>form>button {
-            margin-left: 0!important;
-            padding-top:5px;
+    <style>
+        @media screen and (max-width: 992px) {
+
+            .navbar-collapse>ul>.nav-item,
+            .navbar-collapse>form,
+            .navbar-collapse>form>button {
+                margin-left: 0 !important;
+                padding-top: 5px;
+            }
+
+            .container> .justify-content-md-center> .col-lg-2 {
+                margin-right: 0 !important;
+            }
         }
-    }
-   </style>
+
+        .modal,
+        .modal-backdrop {
+            display: none;
+        }
+
+        .modal.open,
+        .modal-backdrop.open {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            padding-top: 100px;
+            /* Location of the box */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modal-dialog {
+            margin: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+    </style>
 
 
 @endsection('content')

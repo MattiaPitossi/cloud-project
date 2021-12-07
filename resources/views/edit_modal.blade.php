@@ -1,14 +1,5 @@
 
-@if ($errors->any())
-<div class="alert alert-danger">
-    <strong>Whoops!</strong> There are some issues.<br><br>
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+
 
 <form action="{{ route('file.update', [$file->id, $file->name]) }}" method="POST" enctype="multipart/form-data">
 

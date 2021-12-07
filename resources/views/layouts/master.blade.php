@@ -418,6 +418,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body>
@@ -463,18 +465,18 @@
                                     </ul>
                                 </li> --}}
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
+                            <a href="/recently" class="nav-link px-0 align-middle">
                                 <i class="bi bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Recently
                                     added</span> </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
+                            <a href="/deleted/files" class="nav-link px-0 align-middle">
                                 <i class="bi bi-trash"></i> <span class="ms-1 d-none d-sm-inline">Deleted
                                     Files</span> </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="bi bi-info-circle"></i> <span class="ms-1 d-none d-sm-inline">About</span>
+                            <a href="/profile" class="nav-link px-0 align-middle">
+                                <i class="bi bi-person"></i> <span class="ms-1 d-none d-sm-inline">Profile</span>
                             </a>
                         </li>
                     </ul>
@@ -487,16 +489,17 @@
                         </a>
                         <ul class="dropdown-menu">
                             {{-- <li><a class="dropdown-item" href="{{ route('logout') }}">Profile</a></li> --}}
+                            <li><a class="dropdown-item" href="/profile">{{ __('Profile') }}</a></li>
 
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="dropdown-item">
+
+                                <form action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button class="btn btn-link" type="submit">
-                                        {{ __('Logout') }}
-                                    </button>
+                                    <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
                                 </form>
 
                             </li>
+
                         </ul>
                     </div>
                 </div>
@@ -599,10 +602,21 @@
                 return false;
             });
 
+        });
 
+        // open create folder modal
+        $('.js-upload-file-btn').on('click', function() {
+            $(".js-upload-file, .modal-backdrop").addClass("open");
+        });
+
+        // close all modal
+        $(document).on('click', '.modal .close', function() {
+            $(".modal, .modal-backdrop").removeClass("open");
 
         });
-    </script>
+
+
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

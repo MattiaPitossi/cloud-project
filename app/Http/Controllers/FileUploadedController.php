@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class FileUploadedController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,33 +23,65 @@ class FileUploadedController extends Controller
      */
     public function search(Request $request)
     {
+        if (Auth::check()) {
 
+            $user_id = Auth::user()->id;
 
-        $user_id = Auth::user()->id;
+            $true = 1;
 
-        $file_uploaded = FileUploaded::where([
-            ['name', '!=', Null], ['user_id', '=', $user_id],
-            [function ($query) use ($request) {
-                if (($term = $request->term)) {
-                    $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
-                }
-            }]
-        ])->orderBy("id", "desc")->paginate(10);
+            $file_uploaded = FileUploaded::where([
+                ['name', '!=', Null], ['user_id', '=', $user_id],
+                ['is_deleted', '!=', $true],
+                [function ($query) use ($request) {
+                    if (($term = $request->term)) {
+                        $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
+                    }
+                }]
+            ])->orderBy("id", "desc")->paginate(10);
 
-        return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+            return view('index', compact('file_uploaded'))->with('i', (request()->input('page', 1) - 1) * 5);
+        } else {
+            return view('auth.login')->with('message', 'Session expired. Please login.');
+        }
     }
-
-
 
     public function index()
     {
         $user_id = Auth::user()->id;
-        $file_uploaded = FileUploaded::where('user_id', $user_id)->latest()->get();
+        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->get();
 
         return view('index', compact('file_uploaded'));
     }
 
+    public function getRecentlyAddedFiles()
+    {
+        $user_id = Auth::user()->id;
+        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->take(10)->get();
 
+        return view('recently_added', compact('file_uploaded'));
+    }
+
+
+    public function update(Request $request, $id, $name)
+    {
+        //dd($request);
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        if ($request->name != $name) {
+            Storage::disk('local')->move("file_uploaded/" . $name, "file_uploaded/" . $request->name);
+
+            $user_id = Auth::user()->id;
+            FileUploaded::where('id', $id)->where('user_id', $user_id)->update(['name' => $request->name]);
+
+            return redirect()->route('index')
+                ->with('success', 'File name uploaded successfully');
+        } else {
+            return redirect()->route('index')
+                ->with('error', 'File name must be different');
+        }
+    }
 
 
     /**
@@ -54,21 +92,40 @@ class FileUploadedController extends Controller
      */
     public function store(Request $request)
     {
-        $files = new FileUploaded($request->all());
-        if ($request->file('file')) {
 
-            $file = $request->file('file');
-            $filename = $file->getClientOriginalName();
-            $size = $file->getSize();
-            $request->file('file')->storeAs('file_uploaded', $filename, 'local');
-            //insert into db
-            $files->user_id = Auth::user()->id;
-            $files->name = $filename;
-            $files->size = $this->humanFileSize($size);
-            $files->save();
-        } else {
-            return response()->json(['fail' => "Not a file."]);
-        }
+
+
+        $request->validate([
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048'
+            ]);
+
+
+        $files = new FileUploaded($request->all());
+
+
+            if ($request->file('file')) {
+
+                $file = $request->file('file');
+                $filename = $file->getClientOriginalName();
+                // Form validation
+                if (FileUploaded::whereName($filename)->first()) {
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                        'file' => 'File already exists'
+                    ]);
+
+                    throw $error;
+                }
+                $size = $file->getSize();
+                $request->file('file')->storeAs('file_uploaded', $filename, 'local');
+                //insert into db
+                $files->user_id = Auth::user()->id;
+                $files->name = $filename;
+                $files->size = $this->humanFileSize($size);
+                $files->save();
+            } else {
+                return response()->json(['fail' => "Not a file."]);
+            }
+
 
         //return response()->json(['success' => "File uploaded successfully."]);
         return redirect()->route('index');
@@ -105,7 +162,11 @@ class FileUploadedController extends Controller
     public function deleteAll(Request $request)
     {
         $ids = $request->ids;
-        DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();
-        return response()->json(['success' => "Files deleted successfully"]);
+        //DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();
+        $array_ids = explode(",", $ids);
+        foreach ($array_ids as $id) {
+            DB::table('file_uploaded')->where('id', $id)->update(['is_deleted' => '1']);
+        }
+        return response()->json(['success' => "Files moved to files deleted"]);
     }
 }

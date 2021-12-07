@@ -10,5 +10,5 @@ class FileUploaded extends Model
     use HasFactory;
     protected $table = 'file_uploaded';
 
-    protected $fillable = ['name','size','user_id'];
+    protected $fillable = ['id','name','size','user_id'];
 }

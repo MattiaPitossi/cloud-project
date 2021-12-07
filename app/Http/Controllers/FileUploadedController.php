@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Throwable;
+
+use Exception;
 
 class FileUploadedController extends Controller
 {
@@ -90,13 +93,20 @@ class FileUploadedController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Exception $exception )
     {
 
+        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) {
 
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'file' => 'File too large'
+            ]);
+
+            throw $error;
+        }
 
         $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf|max:2048'
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,pdf,.mp3|max:2048'
             ]);
 
 

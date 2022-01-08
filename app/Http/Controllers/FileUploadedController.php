@@ -119,11 +119,20 @@ class FileUploadedController extends Controller
                 $filename = $file->getClientOriginalName();
                 // Form validation
                 if (FileUploaded::whereName($filename)->first()) {
+                    $value = FileUploaded::where('name', '=', $filename)->pluck('is_deleted')->first();
+                    if ($value == 0){
                     $error = \Illuminate\Validation\ValidationException::withMessages([
-                        'file' => 'File already exists'
+                        'file' => 'File already exists in uploaded files'
                     ]);
 
                     throw $error;
+                    } else {
+                        $error = \Illuminate\Validation\ValidationException::withMessages([
+                            'file' => 'File already exists in deleted files'
+                        ]);
+
+                        throw $error;
+                    }
                 }
                 $size = $file->getSize();
                 $request->file('file')->storeAs('file_uploaded', $filename, 'local');

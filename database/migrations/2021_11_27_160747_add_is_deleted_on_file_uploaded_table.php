@@ -14,7 +14,7 @@ class AddIsDeletedOnFileUploadedTable extends Migration
     public function up()
     {
         Schema::table('file_uploaded', function (Blueprint $table) {
-            $table->boolean('is_deleted');
+            $table->boolean('is_deleted')->default(false);
         });
     }
 

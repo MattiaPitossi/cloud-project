@@ -76,7 +76,7 @@
             @else
 
                 <tr>
-                    <td colspan="2">No rows to show</td>
+                    <td colspan="2">No files have been uploaded, add new files with the upload button</td>
                 </tr>
 
             @endif

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/files/download/{id}', [App\Http\Controllers\FileUploadedController::class, 'download'])->name('downloadfile');
-Route::get('/index', [App\Http\Controllers\FileUploadedController::class, 'index'])->name('index');
+Route::get('/index', [App\Http\Controllers\FileUploadedController::class, 'getAll'])->name('getAll');
 Route::post('/files', [App\Http\Controllers\FileUploadedController::class, 'store'])->name('file.upload');
 Route::delete('/files/delete', [App\Http\Controllers\FileUploadedController::class, 'deleteAll'])->name('myFilesDeleteAll');
 Route::get('/files/search', [App\Http\Controllers\FileUploadedController::class, 'search']);

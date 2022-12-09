@@ -496,9 +496,9 @@
 
                             <li>
 
-                                <form action="{{ route('logout') }}" method="POST">
+                                <form action="{{ route('logout') }}" method="POST" id="logout-form">
                                     @csrf
-                                    <button class="dropdown-item" type="submit">{{ __('Logout') }}</button>
+                                    <button class="dropdown-item"  onclick="return logout(event);" type="submit">{{ __('Logout') }}</button>
                                 </form>
 
                             </li>
@@ -617,6 +617,14 @@
             $(".modal, .modal-backdrop").removeClass("open");
 
         });
+
+        function logout(event){
+            event.preventDefault();
+            const check = confirm("Do you really want to logout?");
+            if(check){
+                document.getElementById('logout-form').submit();
+            }
+        }
 
 
 </script>

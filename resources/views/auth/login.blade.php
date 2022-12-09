@@ -1,4 +1,14 @@
+<style>
+    .alert.alert-info  {
+        color: red;
+        padding-left: 100px;
+    }
+</style>
+
 <x-guest-layout>
+
+
+
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -6,11 +16,19 @@
             </a>
         </x-slot>
 
+        @if (session('info'))
+            <div class="alert alert-info" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                {{ session('info') }}
+            </div>
+        @endif
+
         @if (session()->has('message'))
             <div class="alert alert-primary">
                 {{ session()->get('message') }}
             </div>
         @endif
+
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />

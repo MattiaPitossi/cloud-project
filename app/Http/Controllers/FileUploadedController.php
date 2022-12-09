@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\FileUploaded;
+use Dotenv\Loader\Resolver;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Throwable;
+use Response;
 
 use Exception;
+use Illuminate\Validation\ValidationException;
 
 class FileUploadedController extends Controller
 {
@@ -22,7 +27,7 @@ class FileUploadedController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function search(Request $request)
     {
@@ -48,18 +53,17 @@ class FileUploadedController extends Controller
         }
     }
 
-    public function index()
+    public function getAll()
     {
         $user_id = Auth::user()->id;
-        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->get();
-
+        $file_uploaded = (new FileUploaded)->where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->get();
         return view('index', compact('file_uploaded'));
     }
 
     public function getRecentlyAddedFiles()
     {
         $user_id = Auth::user()->id;
-        $file_uploaded = FileUploaded::where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->take(10)->get();
+        $file_uploaded = (new FileUploaded)->where('user_id', $user_id)->where('is_deleted', '!=', 1)->latest()->take(10)->get();
 
         return view('recently_added', compact('file_uploaded'));
     }
@@ -90,19 +94,18 @@ class FileUploadedController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return JsonResponse
+     * @throws ValidationException
      */
     public function store(Request $request, Exception $exception )
     {
 
-        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException) {
+        if ($exception instanceof PostTooLargeException) {
 
-            $error = \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'file' => 'File too large'
             ]);
-
-            throw $error;
         }
 
         $request->validate([
@@ -121,17 +124,13 @@ class FileUploadedController extends Controller
                 if (FileUploaded::whereName($filename)->first()) {
                     $value = FileUploaded::where('name', '=', $filename)->pluck('is_deleted')->first();
                     if ($value == 0){
-                    $error = \Illuminate\Validation\ValidationException::withMessages([
-                        'file' => 'File already exists in uploaded files'
-                    ]);
-
-                    throw $error;
+                        throw ValidationException::withMessages([
+                            'file' => 'File already exists in uploaded files'
+                        ]);
                     } else {
-                        $error = \Illuminate\Validation\ValidationException::withMessages([
+                        throw ValidationException::withMessages([
                             'file' => 'File already exists in deleted files'
                         ]);
-
-                        throw $error;
                     }
                 }
                 $size = $file->getSize();
@@ -147,7 +146,7 @@ class FileUploadedController extends Controller
 
 
         //return response()->json(['success' => "File uploaded successfully."]);
-        return redirect()->route('index');
+        return redirect()->route('getAll');
     }
 
     function humanFileSize($size, $unit = "")
@@ -164,21 +163,22 @@ class FileUploadedController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download($id)
     {
         if (Storage::disk('local')->exists("file_uploaded/$id")) {
             $path = Storage::disk('local')->path("file_uploaded/$id");
             $content = file_get_contents($path);
-            return response($content)->withHeaders(['Content-Type' => mime_content_type($path)]);
+            //return response($content)->withHeaders(['Content-Type' => mime_content_type($path)]);
+            return Response::download($path);
         }
         return redirect('/404');
     }
 
-    //@DeleteMapping("/files/delete")
-    public function deleteAll(Request $request)
+    //DELETE /files/delete
+    public function deleteAll(Request $request): JsonResponse
     {
         $ids = $request->ids;
         //DB::table("file_uploaded")->whereIn('id', explode(",", $ids))->delete();

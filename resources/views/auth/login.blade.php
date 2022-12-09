@@ -58,9 +58,15 @@
                     {{ __('Not registred? Create an account') }}
                 </a>
 
+                <a class="underline text-sm text-gray-60 hover:text-gray-900" href="/forgot-password">
+                    {{ __('Forgot your password?') }}
+                </a>
+
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
+
+
             </div>
         </form>
     </x-auth-card>

@@ -534,7 +534,7 @@
                     alert("Please select row.");
                 } else {
 
-                    var check = confirm("Are you sure you want to delete this row?");
+                    var check = confirm("Are you sure you want to delete this file?");
                     if (check == true) {
 
                         var join_selected_values = allVals.join(",");

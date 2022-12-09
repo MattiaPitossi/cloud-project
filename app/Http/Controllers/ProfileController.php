@@ -29,7 +29,9 @@ class ProfileController extends Controller
         // Form validation
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'phone' => 'nullable|numeric|digits:10',
+            'mobile' => 'nullable|numeric|digits:10'
         ]);
 
         User::where('id', $id)->update([
@@ -63,15 +65,13 @@ class ProfileController extends Controller
 
     public function upload(Request $request)
     {
-        $files = $request->all();
 
-        foreach ($files as $file) {
-            if ($request->hasFile('image')) {
-                $filename = $request->image->getClientOriginalName();
-                $request->image->storeAs('images', $filename, 'public');
-                Auth()->user()->update(['image' => $filename]);
-            }
-            return redirect()->back();
+        if ($request->hasFile('image')) {
+            $filename = $request->image->getClientOriginalName();
+            $request->image->storeAs('images', $filename, 'public');
+            Auth()->user()->update(['image' => $filename]);
         }
+        return redirect()->back();
     }
+
 }

@@ -28,11 +28,11 @@
 
 
 
-    <table class="table table-hover">
+    <table class="table table-hover" id="all-files">
         <thead>
             <tr>
-                <th scope="col" class="text-center">File Name</th>
-                <th scope="col" class="text-center">Added</th>
+                <th scope="col" class="text-center" onclick="sortTable(0)">File Name</th>
+                <th scope="col" class="text-center" onclick="sortTable(0)">Added</th>
                 <th scope="col" class="text-center">Size</th>
                 <th scope="col" class="text-center"></th>
             </tr>
@@ -61,7 +61,7 @@
             @else
 
                 <tr>
-                    <td colspan="2">No rows to show</td>
+                    <td colspan="2">No file has been recently added</td>
                 </tr>
 
             @endif

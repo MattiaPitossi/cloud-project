@@ -186,6 +186,6 @@ class FileUploadedController extends Controller
         foreach ($array_ids as $id) {
             DB::table('file_uploaded')->where('id', $id)->update(['is_deleted' => '1']);
         }
-        return response()->json(['success' => "Files moved to files deleted"]);
+        return response()->json(['success' => "Files moved to deleted files page"]);
     }
 }

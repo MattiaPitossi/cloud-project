@@ -8,7 +8,7 @@
                 <nav aria-label="breadcrumb" class="main-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
                     </ol>
                 </nav>
                 <!-- /Breadcrumb -->
@@ -91,7 +91,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a class="btn btn-primary "
-                                        href=""" data-toggle="modal" data-target="#ModalProfileEdit{{$user->id}}">Edit</a>
+                                        href="" data-toggle="modal" data-target="#ModalProfileEdit{{$user->id}}">Edit</a>
                                     </div>
                                 </div>
                             </div>

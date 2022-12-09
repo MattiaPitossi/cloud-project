@@ -35,12 +35,12 @@
         </div>
     @endif
 
-    <table class="table table-hover">
+    <table class="table table-hover" id="all-files">
         <thead>
             <tr>
-                <th width="50px"><input type="checkbox" id="master"></th>
-                <th scope="col" class="text-center">File Name</th>
-                <th scope="col" class="text-center">Added</th>
+                <th width="50px"><input type="checkbox" id="master" title="Select all items"></th>
+                <th scope="col" class="text-center" onclick="sortTable(0)">File Name</th>
+                <th scope="col" class="text-center" onclick="sortTable(0)">Added</th>
                 <th scope="col" class="text-center">Size</th>
                 <th scope="col" class="text-center"></th>
             </tr>
@@ -77,7 +77,7 @@
             @else
 
                 <tr>
-                    <td colspan="2">No rows to show</td>
+                    <td colspan="2">No file has been deleted</td>
                 </tr>
 
             @endif

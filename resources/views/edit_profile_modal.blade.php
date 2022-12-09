@@ -15,6 +15,8 @@
 <form action="{{ route('user.update', [$user->id]) }}" method="POST" enctype="multipart/form-data" novalidate>
 
 
+
+
     @csrf
     @method('PUT')
     <div class="modal fade" id="ModalProfileEdit{{ $user->id }}" tabindex="-1"
@@ -74,8 +76,13 @@
                                 <h6 class="mb-0">Phone</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="phone" class="form-control" value="{{ $user->phone }}">
+                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"value="{{ $user->phone }}">
 
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
 
                             </div>
                         </div>
@@ -84,7 +91,13 @@
                                 <h6 class="mb-0">Mobile</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="mobile" class="form-control" value="{{ $user->mobile }}">
+                                <input type="text" name="mobile" class="form-control @error('mobile') is-invalid @enderror"value="{{ $user->mobile }}">
+
+                                @error('mobile')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-3">

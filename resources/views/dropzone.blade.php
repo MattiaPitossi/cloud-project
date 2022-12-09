@@ -41,6 +41,11 @@
                             {!! $errors->first('file', '<span class="text-danger">:message</span>') !!}
                         </div>
 
+                        <div>
+                            <p>Only one file at once can be uploaded</p>
+                            <p>supported files are: png, jpg, jpeg, csv, txt, xlx, xls, pdf, mp3</p>
+                        </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 onclick="$('#ModalFileUpload').modal('hide');">Close</button>

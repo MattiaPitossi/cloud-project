@@ -56,4 +56,12 @@ Route::put('/profile/update/{id}', [App\Http\Controllers\ProfileController::clas
 Route::delete('/profile/delete', [App\Http\Controllers\ProfileController::class, 'delete'])->name('user.delete');
 Route::post('/profile/upload', [App\Http\Controllers\ProfileController::class, 'upload'])->name('user.upload');
 
+
+/*
+|--------------------------------------------------------------------------
+| RecentlyAddedFilesController
+|--------------------------------------------------------------------------
+*/
+Route::get('/files/search/recently_added', [App\Http\Controllers\RecentlyAddedFilesController::class, 'search']);
+
 require __DIR__ . '/auth.php';

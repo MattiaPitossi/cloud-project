@@ -42,7 +42,7 @@
                                 <h6 class="mb-0">Full Name</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="name"
+                                <input type="text" name="name" placeholder="John Appleseed"
                                     class="form-control @error('name') is-invalid
 
                                 @enderror"
@@ -59,7 +59,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="email"
+                                <input type="text" name="email" placeholder="email@example.com"
                                     class="form-control @error('email') is-invalid
 
                                 @enderror"
@@ -76,7 +76,7 @@
                                 <h6 class="mb-0">Phone</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"value="{{ $user->phone }}">
+                                <input type="text" name="phone" placeholder="0301234567" class="form-control @error('phone') is-invalid @enderror"value="{{ $user->phone }}">
 
                                 @error('phone')
                                 <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
                                 <h6 class="mb-0">Mobile</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="mobile" class="form-control @error('mobile') is-invalid @enderror"value="{{ $user->mobile }}">
+                                <input type="text" name="mobile" placeholder="3391234567" class="form-control @error('mobile') is-invalid @enderror"value="{{ $user->mobile }}">
 
                                 @error('mobile')
                                 <span class="invalid-feedback" role="alert">
@@ -105,7 +105,7 @@
                                 <h6 class="mb-0">Address</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <input type="text" name="address" class="form-control"
+                                <input type="text" name="address" placeholder="street,10" class="form-control"
                                     value="{{ $user->address }}">
                             </div>
                         </div>

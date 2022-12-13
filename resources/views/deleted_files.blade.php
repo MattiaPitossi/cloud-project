@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('content')
 
+
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -28,6 +30,9 @@
             </div>
         </div>
     </nav>
+    <div class="alert alert-primary" role="alert">
+        Your files will remain here until you decide to delete them permanently
+    </div>
 
     @if (session()->has('message'))
         <div class="alert alert-primary">

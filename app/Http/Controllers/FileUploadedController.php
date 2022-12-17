@@ -82,10 +82,10 @@ class FileUploadedController extends Controller
             $user_id = Auth::user()->id;
             FileUploaded::where('id', $id)->where('user_id', $user_id)->update(['name' => $request->name]);
 
-            return redirect()->route('index')
+            return redirect()->route('getAll')
                 ->with('success', 'File name uploaded successfully');
         } else {
-            return redirect()->route('index')
+            return redirect()->route('getAll')
                 ->with('error', 'File name must be different');
         }
     }
